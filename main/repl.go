@@ -27,13 +27,14 @@ func startRepl() {
 		// parse input command
 		command := cleaned[0]
 
-		switch command {
-		case "help":
-		case "exit":
-			os.Exit(0) // terminates the program with no exit code
-		default:
-			fmt.Println("invalid command")
+		// check for command value
+		cmd, ok := getCommands()[command]
+		if !ok {
+			fmt.Println("Invalid Command")
+			continue
 		}
+
+		cmd.callback()
 
 	}
 }
@@ -41,7 +42,7 @@ func startRepl() {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func()
+	callback    func() error
 }
 
 func getCommands() map[string]cliCommand {
@@ -49,12 +50,12 @@ func getCommands() map[string]cliCommand {
 		"help": {
 			name:        "help",
 			description: "Prints the help menu",
-			callback:    callbackHelp(),
+			callback:    callbackHelp,
 		},
 		"exit": {
 			name:        "exit",
 			description: "Exit cmd to leave the program",
-			callback:    callbackExit(),
+			callback:    callbackExit,
 		},
 	}
 }

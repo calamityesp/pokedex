@@ -1,7 +1,18 @@
 package main
 
-import ()
+import (
+	"fmt"
+	"github.com/calamityesp/pokedex/main/internal/pokeapi"
+	"log"
+)
 
 func main() {
-	startRepl()
+	//	startRepl()
+	pokeapiclient := pokeapi.NewClient()
+
+	resp, err := pokeapiclient.ListLocationAreas()
+	if err != nil {
+		log.Fatal("Shit broke")
+	}
+	fmt.Println(resp)
 }
