@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func startRepl() {
+func startRepl(cfg *config) {
 	reader := bufio.NewScanner(os.Stdin)
 
 	// Forever loop to run repl with go
@@ -56,6 +56,11 @@ func getCommands() map[string]cliCommand {
 			name:        "exit",
 			description: "Exit cmd to leave the program",
 			callback:    callbackExit,
+		},
+		"map": {
+			name:        "Map",
+			description: "Lists possible map location",
+			callback:    callbackMap,
 		},
 	}
 }
