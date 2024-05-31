@@ -2,14 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/calamityesp/pokedex/main/internal/pokeapi"
 	"log"
 )
 
 func callbackMap(cfg *config) error {
-	pokeapiclient := pokeapi.NewClient()
+	pokeapiclient := cfg.pokeapiclient
 
-	resp, err := pokeapiclient.ListLocationAreas()
+	resp, err := pokeapiclient.ListLocationAreas(cfg.nextLocationAreaUrl)
 	if err != nil {
 		log.Fatal("Shit broke")
 	}
@@ -18,5 +17,7 @@ func callbackMap(cfg *config) error {
 	for _, area := range resp.Results {
 		fmt.Printf("- %s\n", area.Name)
 	}
+	cfg.nextLocationAreaUrl = resp.Next
+	cfg.prevLocationAreaUrl = resp.Previous
 	return nil
 }
