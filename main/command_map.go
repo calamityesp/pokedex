@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-func callbackMap(cfg *config) error {
+func callbackMap(cfg *config, args ...string) error {
 	pokeapiclient := cfg.pokeapiclient
 
 	resp, err := pokeapiclient.ListLocationAreas(cfg.nextLocationAreaUrl)

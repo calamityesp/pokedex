@@ -18,6 +18,10 @@ func startRepl(cfg *config) {
 
 		// clean the input text
 		cleaned := cleanInput(text)
+		args := []string{}
+		if len(cleaned) > 1 {
+			args = cleaned[1:]
+		}
 
 		// check for empty input and continue instead
 		if len(cleaned) == 0 {
@@ -34,7 +38,7 @@ func startRepl(cfg *config) {
 			continue
 		}
 
-		cmd.callback(cfg)
+		cmd.callback(cfg, args...)
 
 	}
 }
@@ -42,7 +46,7 @@ func startRepl(cfg *config) {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(*config, ...string) error
 }
 
 func getCommands() map[string]cliCommand {
@@ -66,6 +70,26 @@ func getCommands() map[string]cliCommand {
 			name:        "mapp",
 			description: "Lists previous map locations",
 			callback:    callbackMapp,
+		},
+		"explore": {
+			name:        "explore",
+			description: "List all pokemon in a given area",
+			callback:    callbackExplore,
+		},
+		"catch": {
+			name:        "catch",
+			description: "Attempt to catch a pokemon",
+			callback:    callbackCatch,
+		},
+		"inspect": {
+			name:        "inspect",
+			description: "Get basic information about a pokemon",
+			callback:    callbackInspect,
+		},
+		"pokedex": {
+			name:        "pokedex",
+			description: "List all of the pokemon you have caught",
+			callback:    callbackPokedex,
 		},
 	}
 }
